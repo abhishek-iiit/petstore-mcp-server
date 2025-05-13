@@ -6,7 +6,7 @@ import hashlib
 import re
 
 # CHANGE THESE TO YOUR TARGET API!
-BASE_URL = "https://app.turtlemint.com"
+BASE_URL = "https://app.turtlefin.com"
 OPENAPI_URL = "https://app.turtlemint.com/api/docs/swagger-ui-init.js"
 
 mcp = FastMCP(
@@ -164,13 +164,17 @@ def build_func(endpoint, method, operation):
     return api_tool
 
 def register_all_tools():
+    print("Fetching OpenAPI spec...")
     spec = get_openapi_spec()
+    print("Fetched OpenAPI spec. Registering tools...")
     for endpoint, ops in spec["paths"].items():
         for method, operation in ops.items():
             summary = operation.get("summary", f"{method.upper()} {endpoint}")
             func = build_func(endpoint, method, operation)
             tool_name = sanitize_tool_name(method, endpoint)
+            print(f"Registering tool: {tool_name}")
             mcp.tool(description=summary, name=tool_name)(func)
+    print("All tools registered.")
 
 def sanitize_tool_name(method: str, endpoint: str) -> str:
     # Build initial name
