@@ -33,10 +33,10 @@ def make_api_request(method, endpoint, data=None, params=None):
     except requests.exceptions.RequestException as e:
         return {"error": f"API request failed: {str(e)}"}
 
-def format_api_response(response):
-    if isinstance(response, dict) and "error" in response:
-        return f"Error: {response['error']}\n\nDetails: {response.get('details', 'No additional details')}"
-    return json.dumps(response, indent=2)
+# def format_api_response(response):
+#     if isinstance(response, dict) and "error" in response:
+#         return f"Error: {response['error']}\n\nDetails: {response.get('details', 'No additional details')}"
+#     return json.dumps(response, indent=2)
 
 def get_openapi_spec():
     resp = requests.get(OPENAPI_URL)
